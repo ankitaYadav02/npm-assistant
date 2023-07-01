@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 import { Object, SearchedPackageDto } from "../../types/searchedPackageDto";
 import { BsTagsFill } from "react-icons/Bs";
+import { useRouter } from "next/navigation";
 
 const Search = () => {
   const [suggestedPackages, setSuggestedPackages] =
     useState<SearchedPackageDto | null>(null);
+    const router = useRouter();
 
   const fetchPackageList = async (searchString: string) => {
     const dynamicData = await fetch(
@@ -33,6 +35,10 @@ const Search = () => {
           <div
             className="flex flex-col p-10 shadow-md mb-5 rounded-lg cursor-pointer bg-primary-5"
             key={data.package.name}
+            onClick={() => {
+              router.push(`/package/${data.package.name}`);
+            }}
+            role="button"
           >
             <div id="search-package-suggestions-container">
               <h1>{data.package.name} ( {data.package.version} )</h1>
